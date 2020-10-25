@@ -13,16 +13,16 @@ Users can control PC remotely by this app.\
 <br>
 <br>
 
-The design and basic function is from [flask-argon-dashboard](https://github.com/app-generator/flask-argon-dashboard) project!!!
+**The design and basic function is from [flask-argon-dashboard](https://github.com/app-generator/flask-argon-dashboard) project!!!**
 
 ## How to deploy
 
 ### On the server side
-Those files are in `server` folder. Put it in your sever.\
+Those files are in `server` folder. Put it in your sever.
 
-1. Make sure you install the dependencies. Like `flask, nginx, python3`, etc.\
+1. Make sure you install the dependencies. Like `flask, nginx, python3`, etc.
 2. Run it on server side.
 
 ### On the client side
-1. Install Chrome Extension on Chrome.\
+1. Install Chrome Extension on Chrome.
 2. Run `screenshot.py` in your terminal.
