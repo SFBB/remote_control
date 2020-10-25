@@ -11,9 +11,7 @@ Users can control PC remotely by this app.\
 ![asdsad](https://i.imgur.com/BLGGzRt.png)
 \
 \
-\
-
-
+\     
 
 ## How to deploy
 
