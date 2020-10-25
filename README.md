@@ -7,7 +7,12 @@ You can visit the control panel from browser.
 And the control panel provides many options(like screenshot, pause video, next video list, connect to VPN, etc) to users.  
 
 Users can control PC remotely by this app.  
+
 ![asdsad](https://i.imgur.com/BLGGzRt.png)
+` `
+` `
+` `
+<br />
 
 ## How to deploy
 
