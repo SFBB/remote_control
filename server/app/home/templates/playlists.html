@@ -1,0 +1,384 @@
+{% extends "base_site.html" %}
+
+{% block title %} Dashboard {% endblock title %}
+
+{% block stylesheets %}
+  {{ super() }}
+  <style>
+    .modal{
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    .modal-content{
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+    .close, .close_temp{
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close:hover,
+    .close:focus,
+    .close_temp:hover,
+    .close_temp:focus{
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+  {% include "site_template/navigation.html" %}
+
+  {% include "site_template/top-stats.html" %}
+
+  <div class="container-fluid mt--7">
+    <div class="row mt-5">
+      <div class="col-xl-8 mb-5 mb-xl-0">
+        <div class="card shadow">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Pending Playlists</h3>
+              </div>
+              <div class="col text-right">
+                <a href="#!" class="btn btn-sm btn-primary">See all</a>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <!-- Projects table -->
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">PLAYLIST NAME</th>
+                  <th scope="col">DURATION</th>
+                  <th scope="col">DETAILS</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-xl-8 mb-5 mb-xl-0">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Archieved Playlists</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="#!" class="btn btn-sm btn-primary">See all</a>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <!-- Projects table -->
+              <table id="archieve" class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">PLAYLIST NAME</th>
+                    <th scope="col">DURATION</th>
+                    <th scope="col">DETAILS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div id="details" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="col-xl-8 mb-5 mb-xl-0">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 id="details_name" class="mb-0">Playlist</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="#!" onclick="save()" class="btn btn-sm btn-primary">Save</a>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <!-- Projects table -->
+              <table id="details_table" class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">VIDEO NAME</th>
+                    <th scope="col">DURATION</th>
+                    <th scope="col">URL</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+              <button onclick="new_row()">Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="details_temp" class="modal">
+        <div class="modal-content">
+          <span class="close_temp">&times;</span>
+          <div class="col-xl-8 mb-5 mb-xl-0">
+            <div class="card shadow">
+              <div class="card-header border-0">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h3 id="details_name_temp" class="mb-0">Playlist</h3>
+                  </div>
+                  <div class="col text-right">
+                    <a href="#!" class="btn btn-sm btn-primary">See all</a>
+                  </div>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <!-- Projects table -->
+                <table id="details_table_temp" class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">VIDEO NAME</th>
+                      <th scope="col">DURATION</th>
+                      <th scope="col">URL</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {% include "site_template/footer.html" %}
+
+  </div>
+  <div id="div1"><h2>sadad</h2></div>
+  <script src="/static/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+  <script>
+    $("#div1").html("<h2>aaaaaaaaa</h2>");
+    update_data();
+    function update_data(){
+      $.get({
+      url: "/testsss",
+      success: function(response) {
+          $("#div1").html(response);
+          setTimeout(update_data, 1000);
+          }
+      });
+    }
+    $.ajax({
+      type: "POST",
+      url: "/video_lists",
+      data: JSON.stringify({type: 'pending'}),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(response){
+        console.log(response);
+        var playlists= response.playlists;
+        var table = $("div[class*=table-responsive]")[0].children[0];
+        for(var playlist of playlists){
+          $(table).find("tbody").append("<tr id='"+playlist.name+"'><th scope='row'>"+playlist.name+"</th><td>"+playlist.duration+"</td><td><a onclick='show_details("+playlist.name+")' href='#!' class='btn btn-sm btn-primary'>Edit</a></td></tr>");
+        }
+      }
+    });
+    $.ajax({
+      type: "POST",
+      url: "/video_lists",
+      data: JSON.stringify({type: 'archieve'}),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(response){
+        console.log(response);
+        var playlists= response.playlists;
+        var table = $("#archieve")[0];
+        for(var playlist of playlists){
+          $(table).find("tbody").append("<tr id='"+playlist.name+"'><th scope='row'>"+playlist.name+"</th><td>"+playlist.duration+"</td><td><a onclick='show_details_temp("+playlist.name+")' href='#!' class='btn btn-sm btn-primary'>Details</a></td></tr>");
+        }
+      }
+    });
+    function show_details_temp(date){
+      console.log(date);
+      $.ajax({
+        type: "POST",
+        url: "/video_list",
+        data: JSON.stringify({type: String(date)}),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(response){
+          console.log(response);
+          $("#details_name_temp")[0].textContent = date;
+          var videos = response.videos;
+          var table = $("#details_table_temp")[0];
+          for(var video of videos){
+            $(table).find("tbody").append("<tr><th scope='row'>"+video.name+"</th><td>"+video.duration+"</td><td><a href='"+video.url+"'>"+video.url+"</a></td></tr>");
+          }
+          $("#details_temp")[0].style.display = "block";
+        }
+      });
+    }
+    function show_details(date){
+      console.log(date);
+      $.ajax({
+        type: "POST",
+        url: "/video_list",
+        data: JSON.stringify({type: String(date)}),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(response){
+          console.log(response);
+          $("#details_name")[0].textContent = date;
+          var videos = response.videos;
+          var table = $("#details_table")[0];
+          var index = 0;
+          for(var video of videos){
+            $(table).find("tbody").append("<tr id="+index+"><th scope='row'><input value='"+video.name+"' placeholder='Video Name'/></th><td><input value='"+video.duration+"' placeholder='Video Duration'/></td><td><input value='"+video.url+"' placeholder='Video Url'/></td><td><button onclick='remove_row("+index+")'>remove</button><button onclick='up("+index+")'>up</button><button onclick='down("+index+")'>down</button></td></tr>");
+            index = index + 1;
+          }
+          $("#details")[0].style.display = "block";
+        }
+      });
+    };
+    function new_row(){
+        var table = $("#details_table")[0];
+        var index = $(table).find("tbody")[0].childElementCount
+        $(table).find("tbody").append("<tr id="+index+"><th scope='row'><input value='' placeholder='Video Name'/></th><td><input value='' placeholder='Video Duration'/></td><td><input value='' placeholder='Video Url'/></td><td><button onclick='remove_row("+index+")'>remove</button><button onclick='up("+index+")'>up</button><button onclick='down("+index+")'>down</button></td></tr>");
+    }
+    function remove_row(index){
+        var table = $("#details_table")[0];
+        var length = $(table).find("tbody")[0].childElementCount - 1
+        $(table).find("tbody")[0].children[index].outerHTML = "";
+        console.log("length is "+length);
+        while(true){
+            if(index >= length) break;
+            console.log("index is "+index);
+            $(table).find("tbody")[0].children[index].setAttribute("id", index);
+            $(table).find("tbody")[0].children[index].children[3].children[0].setAttribute("onclick", "remove_row("+index+")");
+            $(table).find("tbody")[0].children[index].children[3].children[1].setAttribute("onclick", "up("+index+")");
+            $(table).find("tbody")[0].children[index].children[3].children[2].setAttribute("onclick", "down("+index+")");
+            index = index + 1;
+        }
+    }
+    function up(index){
+        if(index == 0) return;
+        var table = $("#details_table")[0];
+        var row = $(table).find("tbody")[0].children[index];
+        var sibling = row.previousElementSibling;
+        var parent = row.parentNode;
+        parent.insertBefore(row, sibling);
+        index = index - 1;
+        row.setAttribute("id", index);
+        row.children[3].children[0].setAttribute("onclick", "remove_row("+index+")");
+        row.children[3].children[1].setAttribute("onclick", "up("+index+")");
+        row.children[3].children[2].setAttribute("onclick", "down("+index+")");
+        index = index + 1
+        sibling.setAttribute("id", index);
+        sibling.children[3].children[0].setAttribute("onclick", "remove_row("+index+")");
+        sibling.children[3].children[1].setAttribute("onclick", "up("+index+")");
+        sibling.children[3].children[2].setAttribute("onclick", "down("+index+")");
+    }
+    function down(index){
+        var table = $("#details_table")[0];
+        var length = $(table).find("tbody")[0].childElementCount - 1
+        if(index == length) return;
+        var row = $(table).find("tbody")[0].children[index];
+        var sibling = row.nextElementSibling;
+        var sibling_temp = row.nextElementSibling.nextElementSibling;
+        var parent = row.parentNode;
+        parent.insertBefore(row, sibling_temp);
+        index = index + 1;
+        row.setAttribute("id", index);
+        row.children[3].children[0].setAttribute("onclick", "remove_row("+index+")");
+        row.children[3].children[1].setAttribute("onclick", "up("+index+")");
+        row.children[3].children[2].setAttribute("onclick", "down("+index+")");
+        index = index - 1
+        sibling.setAttribute("id", index);
+        sibling.children[3].children[0].setAttribute("onclick", "remove_row("+index+")");
+        sibling.children[3].children[1].setAttribute("onclick", "up("+index+")");
+        sibling.children[3].children[2].setAttribute("onclick", "down("+index+")");
+    }
+    function save(){
+        var table = $("#details_table")[0];
+        var date = $("#details_name")[0].textContent;
+        var data = {filename: date, data: []};
+        var rows = $(table).find("tbody")[0].children;
+        for(var row of rows){
+            if(row.children[0].children[0].value==""||row.children[1].children[0].value==""||row.children[2].children[0].value==""){
+                alert("All Item Must Be Filled!");
+                return;
+            }
+            data.data.push({name: row.children[0].children[0].value, duration: row.children[1].children[0].value, url: row.children[2].children[0].value});
+        }
+        console.log(data);
+        $.ajax({
+            type: "POST",
+            url: "/update_list",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(response){
+                $("#"+date)[0].children[1].textContent = response.duration;
+                alert("Success!");
+            }
+            });
+    }
+    $("[class=close]")[0].onclick = function(){
+      $("#details")[0].style.display = "none";
+      var table = $("#details_table")[0];
+      $(table).find("tbody")[0].innerHTML = "";
+    };
+    window.onclick = function(event){
+      if(event.target == $("#details")[0]){
+        $("#details")[0].style.display = "none";
+        var table = $("#details_table")[0];
+        $(table).find("tbody")[0].innerHTML = "";
+      }
+      if(event.target == $("#details_temp")[0]){
+        $("#details_temp")[0].style.display = "none";
+        var table = $("#details_table_temp")[0];
+        $(table).find("tbody")[0].innerHTML = "";
+      }
+    };
+    $("[class=close_temp]")[0].onclick = function(){
+      $("#details_temp")[0].style.display = "none";
+      var table = $("#details_table_temp")[0];
+      $(table).find("tbody")[0].innerHTML = "";
+    };
+  </script>
+
+{% endblock content %}
+
+<!-- {% block javascripts %}
+  {{ super() }}
+{% endblock javascripts %} -->
