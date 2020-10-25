@@ -1,0 +1,309 @@
+{% extends "base_site.html" %}
+
+{% block title %} Dashboard {% endblock title %}
+
+{% block stylesheets %}
+  {{ super() }}
+  <style>
+    .modal{
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    .modal-content{
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+    .close{
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close:hover,
+    .close:focus{
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+  {% include "site_template/navigation.html" %}
+
+  {% include "site_template/top-stats.html" %}
+
+  <div class="container-fluid mt--7">
+    <div class="row">
+      <div class="col-xl-8 mb-5 mb-xl-0">
+        <div class="card bg-gradient-default shadow">
+          <div class="card-header bg-transparent">
+            <div class="row align-items-center">
+              <div class="col">
+                <h6 class="text-uppercase text-light ls-1 mb-1">Overview</h6>
+                <h2 class="text-white mb-0">Sales value</h2>
+              </div>
+              <div class="col">
+                <ul class="nav nav-pills justify-content-end">
+                  <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales" data-update='{"data":{"datasets":[{"data":[0, 20, 10, 30, 15, 40, 20, 60, 60]}]}}' data-prefix="$" data-suffix="k">
+                    <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
+                      <span class="d-none d-md-block">Month</span>
+                      <span class="d-md-none">M</span>
+                    </a>
+                  </li>
+                  <li class="nav-item" data-toggle="chart" data-target="#chart-sales" data-update='{"data":{"datasets":[{"data":[0, 20, 5, 25, 10, 30, 15, 40, 40]}]}}' data-prefix="$" data-suffix="k">
+                    <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
+                      <span class="d-none d-md-block">Week</span>
+                      <span class="d-md-none">W</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Chart -->
+            <div class="chart">
+              <!-- Chart wrapper -->
+              <canvas id="chart-sales" class="chart-canvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4">
+        <div class="card shadow">
+          <div class="card-header bg-transparent">
+            <div class="row align-items-center">
+              <div class="col">
+                <h6 class="text-uppercase text-muted ls-1 mb-1">Performance</h6>
+                <h2 class="mb-0">Total orders</h2>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Chart -->
+            <div class="chart">
+              <canvas id="chart-orders" class="chart-canvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-xl-8 mb-5 mb-xl-0">
+        <div class="card shadow">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Current Playlist</h3>
+              </div>
+              <div class="col text-right">
+                <a href="#!" class="btn btn-sm btn-primary">See all</a>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <!-- Projects table -->
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Video name</th>
+                  <th scope="col">Duration</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Url</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-8 mb-5 mb-xl-0">
+        <div class="card shadow">
+          <div class="card-header border-0">
+            <div class="row align-items-center">
+              <div class="col">
+                <h3 class="mb-0">Pending Playlists</h3>
+              </div>
+              <div class="col text-right">
+                <a href="#!" class="btn btn-sm btn-primary">See all</a>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <!-- Projects table -->
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">PLAYLIST NAME</th>
+                  <th scope="col">DURATION</th>
+                  <th scope="col">DETAILS</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="details" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="col-xl-8 mb-5 mb-xl-0">
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 id="details_name" class="mb-0">Playlist</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="#!" class="btn btn-sm btn-primary">See all</a>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <!-- Projects table -->
+              <table id="details_table" class="table align-items-center table-flush">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">VIDEO NAME</th>
+                    <th scope="col">DURATION</th>
+                    <th scope="col">URL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include "site_template/footer.html" %}
+
+  </div>
+  <div id="div1"><h2>sadad</h2></div>
+  <script src="/static/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+  <script>
+    $("#div1").html("<h2>aaaaaaaaa</h2>");
+    update_data();
+    function update_data(){
+      $.get({
+      url: "/testsss",
+      success: function(response) {
+          $("#div1").html(response);
+          setTimeout(update_data, 1000);
+          }
+      });
+    }
+    $.ajax({
+      type: "POST",
+      url: "/video_list",
+      data: JSON.stringify({type: 'current_list'}),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(response){
+        console.log(response);
+        var videos = response.videos;
+        var table = $("div[class*=table-responsive]")[0].children[0];
+        var index = 0;
+        for(var video of videos){
+          $(table).find("tbody").append("<tr id='video_"+index+"'><th scope='row'>"+video.name+"</th><td>"+video.duration+"</td><td>"+video.status+"</td><td><a href='"+video.url+"'>"+video.url+"</a></td></tr>");
+          index = index + 1;
+        }
+      }
+    });
+    $.ajax({
+      type: "POST",
+      url: "/video_lists",
+      data: JSON.stringify({type: 'pending'}),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function(response){
+        console.log(response);
+        var playlists= response.playlists;
+        var table = $("div[class*=table-responsive]")[1].children[0];
+        for(var playlist of playlists){
+          $(table).find("tbody").append("<tr><th scope='row'>"+playlist.name+"</th><td>"+playlist.duration+"</td><td><a onclick='show_details("+playlist.name+")' href='#!' class='btn btn-sm btn-primary'>Details</a></td></tr>");
+        }
+      }
+    });
+    function show_details(date){
+      console.log(date);
+      $("#details")[0].style.display = "block";
+      $.ajax({
+        type: "POST",
+        url: "/video_list",
+        data: JSON.stringify({type: String(date)}),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(response){
+          console.log(response);
+          $("#details_name")[0].textContent = date;
+          var videos = response.videos;
+          var table = $("#details_table")[0];
+          for(var video of videos){
+            $(table).find("tbody").append("<tr><th scope='row'>"+video.name+"</th><td>"+video.duration+"</td><td><a href='"+video.url+"'>"+video.url+"</a></td></tr>");
+          }
+        }
+      });
+    }
+    $("[class=close]")[0].onclick = function(){
+      $("#details")[0].style.display = "none";
+      var table = $("#details_table")[0];
+      $(table).find("tbody")[0].innerHTML = "";
+      
+    }
+    window.onclick = function(event){
+      if(event.target == $("#details")[0]){
+        $("#details")[0].style.display = "none";
+        var table = $("#details_table")[0];
+        $(table).find("tbody")[0].innerHTML = "";
+      }
+    }
+    setTimeout(update_status, 3000);
+    function update_status(){
+      $.ajax({
+        type: "POST",
+        url: "/current_get",
+        data: JSON.stringify({type: 'normal'}),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(response){
+          console.log(response);
+          var index = response.index;
+          if(parseInt(response.current_time/response.duration*100)<99)
+            $("#video_"+index)[0].children[2].textContent = "Playing: "+parseInt(response.current_time/response.duration*100)+"%";
+          else
+          $("#video_"+index)[0].children[2].textContent = "Played"
+          setTimeout(update_status, 1000);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          setTimeout(update_status, 1000);
+        }
+      });
+    }
+  </script>
+
+{% endblock content %}
+
+<!-- {% block javascripts %}
+  {{ super() }}
+{% endblock javascripts %} -->

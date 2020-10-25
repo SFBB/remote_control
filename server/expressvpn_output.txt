@@ -1,0 +1,21 @@
+<pre>
+
+
+
+
+Connecting to Singapore - Marina Bay...
+Connecting to Singapore - Marina Bay...	25.0%
+Connecting to Singapore - Marina Bay...	37.5%
+Connecting to Singapore - Marina Bay...	62.5%
+Connecting to Singapore - Marina Bay...	75.0%
+Connecting to Singapore - Marina Bay...	87.5%
+Connecting to Singapore - Marina Bay...	100.0%
+<span class="bold"><span class="f2"><span class="b9">Connected to Singapore - Marina Bay</span></span></span>
+
+   - To check your connection status, type 'expressvpn status'.
+   - If your VPN connection unexpectedly drops, internet traffic will be blocked to protect your privacy.
+   - To disable Network Lock, disconnect ExpressVPN then type 'expressvpn preferences set network_lock off'.
+
+
+
+</pre>
